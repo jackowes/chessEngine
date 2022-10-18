@@ -1,8 +1,16 @@
+# -----------------------------------------------------------
+# IMPORTS
+# -----------------------------------------------------------
+
 import chess
 import chess.svg
 import chess.engine
 import random
 import time
+
+# -----------------------------------------------------------
+# FUNCTIONS
+# -----------------------------------------------------------
 
 def render(board: chess.Board) -> str:
     """
@@ -54,37 +62,54 @@ def random_engine(board):
     moves = list(board.legal_moves)
     return str(random.choice(moves))
 
-def stockfish(board):
-    stockfish_exe_file = r"C:\Users\Jackson Bowes\OneDrive\Desktop\Chess\chessEngine\engines\stockfish_15_x64_avx2.exe"
-    engine = chess.engine.SimpleEngine.popen_uci()
+def stockfish_engine(stockfish_file_path):
+    return chess.engine.SimpleEngine.popen_uci(stockfish_file_path)
+
+# -----------------------------------------------------------
+# MAIN
+# -----------------------------------------------------------
 
 if __name__ == "__main__":
+    #Load board
     board = chess.Board()
 
+    #Load file paths
     stockfish_exe_file = r"C:\Users\Jackson Bowes\OneDrive\Desktop\Chess\chessEngine\engines\stockfish_15_x64_avx2.exe"
-    engine = chess.engine.SimpleEngine.popen_uci(stockfish_exe_file)
+    stockfish_mac_file = r"engines/stockfish"
 
+    #Create engines
+    stockfish1 = stockfish_engine(stockfish_mac_file)
+    stockfish2 = stockfish_engine(stockfish_mac_file)
+
+    #Play chess
     while not board.is_game_over():
-        # Stockfish is black
+        # Stockfish1 is black
         if board.turn == chess.BLACK:
-            result = engine.play(board, chess.engine.Limit(time=1.5))
-            board.push(result.move)
+            stockfish1_result = stockfish1.play(board, chess.engine.Limit(time=0.5))
+            board.push(stockfish1_result.move)
 
-        # Random engine is white
+        # Stockfish2 is white
         elif board.turn == chess.WHITE:
-            move = random_engine(board)
-            board.push_san(move)
+            stockfish2_result = stockfish2.play(board, chess.engine.Limit(time=0.5))
+            board.push(stockfish2_result.move)      
 
-        
+        # # Random engine is white
+        # elif board.turn == chess.WHITE:
+        #     random_move = random_engine(board)
+        #     board.push_san(random_move)
 
-        time.sleep(2)
-        
+        time.sleep(1)
         print(render(board))
 
     #Print outcome
-    print("Winner is:", board.outcome().winner)
+    win_result = board.outcome().winner
+    if win_result == None:
+        print("Draw")
+    elif win_result == True:
+        print("Winner is white")
+    else:
+        print("Winner is black")
 
-    engine.quit()
-
-
-
+    #Quit engines
+    stockfish1.quit()
+    stockfish2.quit()
