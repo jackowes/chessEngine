@@ -62,8 +62,8 @@ def random_engine(board):
     moves = list(board.legal_moves)
     return str(random.choice(moves))
 
-def stockfish_engine(stockfish_file_path):
-    return chess.engine.SimpleEngine.popen_uci(stockfish_file_path)
+def create_engine(engine_file_path):
+    return chess.engine.SimpleEngine.popen_uci(engine_file_path)
 
 # -----------------------------------------------------------
 # MAIN
@@ -76,29 +76,29 @@ if __name__ == "__main__":
     #Load file paths
     stockfish_exe_file = r"C:\Users\Jackson Bowes\OneDrive\Desktop\Chess\chessEngine\engines\stockfish_15_x64_avx2.exe"
     stockfish_mac_file = r"engines/stockfish"
+    komodo_mac_file = r"engines/komodo.02-64-osx"
+    lc0_mac_file = r"engines/lc0"
 
     #Create engines
-    stockfish1 = stockfish_engine(stockfish_mac_file)
-    stockfish2 = stockfish_engine(stockfish_mac_file)
+    white_engine = create_engine(stockfish_mac_file)
+    black_engine = create_engine(komodo_mac_file)
 
     #Play chess
     while not board.is_game_over():
-        # Stockfish1 is black
-        if board.turn == chess.BLACK:
-            stockfish1_result = stockfish1.play(board, chess.engine.Limit(time=0.5))
-            board.push(stockfish1_result.move)
+        if board.turn == chess.WHITE:
+            white_engine_result = white_engine.play(board, chess.engine.Limit(time=0.5))
+            board.push(white_engine_result.move)  
 
-        # Stockfish2 is white
-        elif board.turn == chess.WHITE:
-            stockfish2_result = stockfish2.play(board, chess.engine.Limit(time=0.5))
-            board.push(stockfish2_result.move)      
+        elif board.turn == chess.BLACK:
+            black_engine_result = black_engine.play(board, chess.engine.Limit(time=0.5))
+            board.push(black_engine_result.move)
 
         # # Random engine is white
         # elif board.turn == chess.WHITE:
         #     random_move = random_engine(board)
         #     board.push_san(random_move)
 
-        time.sleep(1)
+        time.sleep(0.5)
         print(render(board))
 
     #Print outcome
@@ -111,5 +111,5 @@ if __name__ == "__main__":
         print("Winner is black")
 
     #Quit engines
-    stockfish1.quit()
-    stockfish2.quit()
+    white_engine.quit()
+    black_engine.quit()
