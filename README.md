@@ -4,6 +4,7 @@ We're building a Python-based chess engine. We plan on building simpler chess en
 
 Here are our current plans:
 - Create engine that plays random moves COMPLETED
+- Wrap chess engine code in a class
 - Create a working web chess GUI
 - Allow user-specified chess engines to play
 - Create engine that uses minimax algorithm
