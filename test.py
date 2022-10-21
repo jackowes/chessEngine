@@ -67,7 +67,7 @@ if __name__ == "__main__":
     while not board.is_game_over():
         # Stockfish is black
         if board.turn == chess.BLACK:
-            result = engine.play(board, chess.engine.Limit(time=1.5))
+            result = engine.play(board, chess.engine.Limit(time=0.1))
             board.push(result.move)
 
         # Random engine is white
@@ -77,12 +77,16 @@ if __name__ == "__main__":
 
         
 
-        time.sleep(2)
+        #time.sleep(1)
         
         print(render(board))
 
+    #convert winner to string
+    if board.outcome().winner == False: winner = "Black"
+    else: winner = "White"
+
     #Print outcome
-    print("Winner is:", board.outcome().winner)
+    print("Winner is: {0}".format(winner))
 
     engine.quit()
 
