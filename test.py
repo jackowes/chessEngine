@@ -74,14 +74,15 @@ if __name__ == "__main__":
     board = chess.Board()
 
     #Load file paths
-    stockfish_exe_file = r"C:\Users\Jackson Bowes\OneDrive\Desktop\Chess\chessEngine\engines\stockfish_15_x64_avx2.exe"
+    stockfish_exe_file = r".\engines\stockfish_15_x64_avx2.exe"
     stockfish_mac_file = r"engines/stockfish"
     komodo_mac_file = r"engines/komodo.02-64-osx"
+    komodo_exe_file = r".\engines\komodo-13.02-64bit.exe"
     lc0_mac_file = r"engines/lc0"
 
     #Create engines
-    white_engine = create_engine(stockfish_mac_file)
-    black_engine = create_engine(komodo_mac_file)
+    white_engine = create_engine(stockfish_exe_file)
+    black_engine = create_engine(komodo_exe_file)
 
     #Play chess
     while not board.is_game_over():
