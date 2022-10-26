@@ -85,6 +85,6 @@ var config = {
   onDrop: onDrop,
   onSnapEnd: onSnapEnd
 }
-board = Chessboard('board2', config)
+board = Chessboard('main-board', config)
 
 updateStatus()

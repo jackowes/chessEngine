@@ -1,0 +1,12 @@
+h1 {
+    /* Center horizontally*/
+    text-align: center;
+}
+
+#main-board {
+    /* Center horizontally*/
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 30px;
+    width: 600px;
+}
