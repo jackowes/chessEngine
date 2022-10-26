@@ -1,2 +1,3 @@
-# ignore dsstore
-engines/.DS_Store
+# Ignore folders 
+./.DS_Store
+./guiJS/main/node_modules/
