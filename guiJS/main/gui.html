@@ -7,9 +7,14 @@
     <script src="js/chessboard-1.0.0.min.js"></script>
   </head>
   <body>
-    <div id="board1" style="width: 400px"></div>
+    <div id="board2" style="width: 400px"></div>
     <script>
-        var board1 = ChessBoard('board1', 'start');
+        var board2 = Chessboard('board2', {
+          draggable: true,
+          dropOffBoard: 'trash',
+          sparePieces: true
+        })
+
     </script>
   </body>
 </html>
