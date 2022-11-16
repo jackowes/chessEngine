@@ -10,20 +10,20 @@ import { Chess } from './chess.js'
 // --- GLOBAL VARIABLES ---
 
 var board = null
-// var game = new Chess()
-var fen = '8/Q6p/6p1/5p2/5P2/2p3P1/3r3P/2K1k3 b - - 3 44'
-var game = new Chess(fen)
+var fen = '1nK1Q3/8/8/8/8/4k3/1r6/8 b - - 0 2'
+var fenStart = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+var game = new Chess(fenStart)
 var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
 var config = {
   draggable: true,
-  // position: 'start',
-  position: fen,
+  position: fenStart,
   onDragStart: onDragStart,
   onDrop: onDrop,
   onMouseoutSquare: onMouseoutSquare,
   onMouseoverSquare: onMouseoverSquare,
-  onSnapEnd: onSnapEnd
+  onSnapEnd: onSnapEnd,
+  onChange: onChange
 }
 
 // --- FUNCTIONS ---
@@ -96,13 +96,12 @@ function onSnapEnd () {
 }
 
 // Called when the game is over
-function onGameEnd() {
+function checkGameEnd() {
   // detect draws and stalemates
   if(game.in_draw() || game.in_stalemate()) {
     document.getElementById('game-result').innerHTML += '<br>Draw';
   }
 
-  console.log(game.in_checkmate())
   // detect losing side
   if(game.in_checkmate()) {
     if(game.turn() == 'b') {
@@ -114,15 +113,17 @@ function onGameEnd() {
   }
 }
 
+function onChange() {
+  console.log('pos changed')
+  console.log(game.ascii())
+  checkGameEnd()
+}
+
 // --- MAIN ---
 
 function main() {
   board = Chessboard('main-board', config)
-
-  while(!game.game_over()) {
-    console.log()
-  }
-  onGameEnd()
+  checkGameEnd()
 }
 
 main()
