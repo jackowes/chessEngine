@@ -10,7 +10,6 @@ import { Chess } from './chess.js'
 // --- GLOBAL VARIABLES ---
 
 var board = null
-var fen = '1nK1Q3/8/8/8/8/4k3/1r6/8 b - - 0 2'
 var fenStart = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 var game = new Chess(fenStart)
 var whiteSquareGrey = '#a9a9a9'
@@ -116,6 +115,7 @@ function checkGameEnd() {
 function onChange() {
   console.log('pos changed')
   console.log(game.ascii())
+  console.log(game.fen())
   checkGameEnd()
 }
 
