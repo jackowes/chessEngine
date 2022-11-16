@@ -1,18 +1,32 @@
 //This code is from https://chessboardjs.com/examples#5003
-
 //Highlight Legal Moves
 // NOTE: this example uses the chess.js library:
 // https://github.com/jhlywa/chess.js
 
+// --- IMPORTS ---
+
 import { Chess } from './chess.js'
 
-// NOTE: this example uses the chess.js library:
-// https://github.com/jhlywa/chess.js
+// --- GLOBAL VARIABLES ---
 
 var board = null
-var game = new Chess()
+var fen = '1nK1Q3/8/8/8/8/4k3/1r6/8 b - - 0 2'
+var fenStart = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+var game = new Chess(fenStart)
 var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
+var config = {
+  draggable: true,
+  position: fenStart,
+  onDragStart: onDragStart,
+  onDrop: onDrop,
+  onMouseoutSquare: onMouseoutSquare,
+  onMouseoverSquare: onMouseoverSquare,
+  onSnapEnd: onSnapEnd,
+  onChange: onChange
+}
+
+// --- FUNCTIONS ---
 
 function removeGreySquares () {
   $('#main-board .square-55d63').css('background', '')
@@ -81,13 +95,35 @@ function onSnapEnd () {
   board.position(game.fen())
 }
 
-var config = {
-  draggable: true,
-  position: 'start',
-  onDragStart: onDragStart,
-  onDrop: onDrop,
-  onMouseoutSquare: onMouseoutSquare,
-  onMouseoverSquare: onMouseoverSquare,
-  onSnapEnd: onSnapEnd
+// Called when the game is over
+function checkGameEnd() {
+  // detect draws and stalemates
+  if(game.in_draw() || game.in_stalemate()) {
+    document.getElementById('game-result').innerHTML += '<br>Draw';
+  }
+
+  // detect losing side
+  if(game.in_checkmate()) {
+    if(game.turn() == 'b') {
+      document.getElementById('game-result').innerHTML += 'White Wins';
+    }
+    else {
+      document.getElementById('game-result').innerHTML += 'Black Wins';
+    }
+  }
 }
-board = Chessboard('main-board', config)
+
+function onChange() {
+  console.log('pos changed')
+  console.log(game.ascii())
+  checkGameEnd()
+}
+
+// --- MAIN ---
+
+function main() {
+  board = Chessboard('main-board', config)
+  checkGameEnd()
+}
+
+main()
