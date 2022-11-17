@@ -11,6 +11,7 @@ import { Chess } from './chess.js'
 
 var board = null
 var fenStart = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+var fenEmpty = '8/8/8/8/8/8/8/8 w - - 0 1'
 var game = new Chess(fenStart)
 var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
@@ -119,11 +120,19 @@ function onChange() {
   checkGameEnd()
 }
 
+function newGameButtonOnClick() {
+  game = new Chess() //reset chess.js game
+  board.start() //reset chessboard
+  document.getElementById('game-result').innerHTML = "" //reset HTML result
+}
+
 // --- MAIN ---
 
 function main() {
   board = Chessboard('main-board', config)
   checkGameEnd()
+
+  document.getElementById("new-game-button").addEventListener("click", newGameButtonOnClick)
 }
 
 main()
